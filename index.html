@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101816" />
+  <meta name="description" content="Civic Signal makes public infrastructure progress, project evidence, and budget changes easier to follow." />
+  <title>Civic Signal — Infrastructure, in public view</title>
+  <link rel="preconnect" href="https://tiles.openfreemap.org" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+  <link href="./styles.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="rail">
+      <a class="brand" href="#overview" aria-label="Civic Signal overview">
+        <span class="brand-mark"><i></i><i></i><i></i></span>
+        <span class="brand-type">Civic<span>Signal</span><small>PUBLIC WORKS, IN VIEW</small></span>
+      </a>
+      <div class="region-switch"><span class="eyebrow">MAP EXPLORER · DATA PHASE 01</span><button id="regionButton" class="region-button" aria-expanded="false" aria-controls="regionMenu"><span class="live-dot"></span><span id="regionLabel">Thane, Maharashtra</span><span class="chevron">⌄</span></button><div id="regionMenu" class="region-menu" hidden><span class="eyebrow">EXPLORE REAL MAP GEOMETRY</span><button data-region="thane">Thane <small>PROJECT DATA · DEMO</small></button><button data-region="mumbai">Mumbai <small>MAP ONLY · ROADMAP</small></button><button data-region="navimumbai">Navi Mumbai <small>MAP ONLY · ROADMAP</small></button><button data-region="pune">Pune <small>MAP ONLY · ROADMAP</small></button><button data-region="maharashtra">Maharashtra <small>MAP ONLY · ROADMAP</small></button><button data-region="india">India <small>MAP ONLY · ROADMAP</small></button><button data-region="earth">Whole Earth <small>MAP ONLY · ROADMAP</small></button><p>Project and evidence coverage currently starts in Thane. The map itself can explore other places.</p></div></div>
+      <nav class="nav" aria-label="Main navigation">
+        <p class="eyebrow nav-label">OBSERVATORY</p>
+        <button class="nav-item active" data-page="overview"><span class="nav-icon">⌂</span> Overview <kbd>01</kbd></button>
+        <button class="nav-item" data-page="city"><span class="nav-icon">◈</span> City model <kbd>02</kbd></button>
+        <button class="nav-item" data-page="projects"><span class="nav-icon">▦</span> Projects <kbd>03</kbd></button>
+        <button class="nav-item" data-page="timeline"><span class="nav-icon">↗</span> Milestones <kbd>04</kbd></button>
+        <button class="nav-item" data-page="budgets"><span class="nav-icon">₹</span> Public spend <kbd>05</kbd></button>
+        <button class="nav-item" data-page="evidence"><span class="nav-icon">⌕</span> Evidence room <kbd>06</kbd></button>
+        <p class="eyebrow nav-label second-label">YOUR DESK</p>
+        <button class="nav-item" data-page="watchlist"><span class="nav-icon">☆</span> Watchlist <span class="nav-count">3</span></button>
+        <button class="nav-item" data-page="reports"><span class="nav-icon">▤</span> Briefings</button>
+      </nav>
+      <div class="rail-bottom">
+        <div class="sync-line"><span class="sync-orbit"><i></i></span><div><strong>OPEN DATA MODEL</strong><small>Map source updates regularly</small></div></div>
+        <button class="profile-button" data-page="settings"><span class="avatar">NS</span><span><strong>Field desk</strong><small>Local workspace</small></span><span class="more">•••</span></button>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="crumb"><span>THANE / MMR</span><span class="slash">/</span><strong id="crumbCurrent">OVERVIEW</strong></div>
+        <div class="top-actions"><span class="data-status"><i></i><span id="dataStatus">LIVE MAP · SAMPLE PROJECT DATA</span></span><button class="icon-button" aria-label="Search" id="searchOpen">⌕</button><button class="text-button" data-page="settings">DATA SOURCES <span>↗</span></button><span class="user-chip">NS</span></div>
+      </header>
+
+      <section class="page page-active" id="page-overview">
+        <div class="intro-row">
+          <div><div class="kicker"><span class="kicker-line"></span> A FIELD GUIDE TO PUBLIC WORKS <span class="kicker-location">ISSUE 01 · THANE, INDIA</span></div><h1>The city is<br><em>always in progress.</em></h1><p class="intro-copy">Move through the built fabric. Follow public work back to its source. Every project pin opens a record; every record tells you what still needs checking.</p></div>
+          <div class="intro-aside"><span class="eyebrow">FIRST TERRITORY / 19.2183° N</span><p>One living city model.<br>Evidence kept in view.<br><b>Built to expand by proof.</b></p><button class="quiet-link" data-page="method">Our evidence standard <span>↗</span></button></div>
+        </div>
+        <div class="dashboard-topline"><div class="section-title"><span class="section-index">01</span><div><h2>Thane, from above</h2><p>Live mapped buildings · project points are illustrative demo records</p></div></div><div class="map-tools"><button class="tool-button selected" id="buildingsToggle"><span class="tool-icon">▥</span> Buildings</button><button class="tool-button" id="projectsToggle"><span class="tool-icon">⌖</span> Projects</button><button class="tool-button" data-page="settings"><span class="tool-icon">⌁</span> Sources</button><button class="map-fullscreen" id="fullScreenMap" aria-label="Expand city model">⛶</button></div></div>
+        <div class="city-stage" id="cityStage">
+          <div id="map" aria-label="Interactive three-dimensional map of Thane"></div>
+          <div class="map-vignette"></div>
+          <div class="map-coordinate"><span class="coordinate-pulse"></span><span>19°12′ N&nbsp; 72°59′ E</span><span class="coord-divider">/</span><span>THANE MUNICIPAL REGION</span></div>
+          <div class="map-corner-tag"><span class="corner-line"></span> OPEN BUILDING GEOMETRY <span class="model-status">CONNECTING</span></div>
+          <div class="map-project-marker marker-one" tabindex="0" role="button" data-project="balkum"><span class="marker-core"></span><span class="marker-label"><small>TRANSPORT</small><b>Balkum Metro Station</b><i>In progress · source linked</i></span></div>
+          <div class="map-project-marker marker-two" tabindex="0" role="button" data-project="ghodbunder"><span class="marker-core delayed"></span><span class="marker-label"><small>ROAD NETWORK</small><b>Ghodbunder Road</b><i>Progress update · 12 days ago</i></span></div>
+          <div class="model-compass" title="North"><span>N</span><i></i></div>
+          <div class="map-zoom"><button id="zoomIn" aria-label="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out">−</button></div>
+          <div class="map-scale"><span></span> 1 km</div>
+          <div class="model-bottom"><span class="model-layers"><i class="legend-building"></i> BUILDINGS <i class="legend-work"></i> DEMO PROJECTS</span><span class="model-credit">© OpenStreetMap contributors · OpenMapTiles · OpenFreeMap</span></div>
+          <div class="map-loading" id="mapLoading"><span class="loading-ring"></span><span>Building the city view…</span></div>
+        </div>
+        <div class="below-map">
+          <div class="metrics-strip">
+            <div class="metric"><span class="eyebrow">THE CITY MODEL</span><b>01 <span class="metric-unit">/ 3D</span></b><small>OSM building geometry · live map tiles</small></div>
+            <div class="metric"><span class="eyebrow">THE FIRST REGION</span><b>THANE</b><small>Local projects are illustrative demo records</small></div>
+            <div class="metric"><span class="eyebrow">THE NEXT MAPS</span><b>MMR <span class="metric-unit">→ MH</span></b><small>Mumbai · Navi Mumbai · Pune · Maharashtra</small></div>
+            <div class="metric metric-source"><span class="eyebrow">THE STANDARD</span><b>TRACEABLE</b><small>Official evidence connectors are not live yet</small></div>
+          </div>
+          <div class="signal-feed">
+            <div class="feed-head"><div><span class="section-index">02</span><h2>Latest signals</h2><p>Recent changes from public sources</p></div><button class="quiet-link" data-page="evidence">Open evidence room <span>↗</span></button></div>
+            <div class="feed-list" id="signalList"></div>
+          </div>
+        </div>
+      </section>
+      <section class="page" id="page-city"></section>
+      <section class="page" id="page-projects"></section>
+      <section class="page" id="page-timeline"></section>
+      <section class="page" id="page-budgets"></section>
+      <section class="page" id="page-evidence"></section>
+      <section class="page" id="page-watchlist"></section>
+      <section class="page" id="page-reports"></section>
+      <section class="page" id="page-settings"></section>
+      <section class="page" id="page-method"></section>
+      <footer class="site-foot"><span>CIVIC SIGNAL <i>—</i> INFRASTRUCTURE, IN PUBLIC VIEW</span><span>Data-informed exploration · Not an official government portal</span></footer>
+    </main>
+  </div>
+  <dialog id="searchDialog" class="search-dialog"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><label class="eyebrow" for="siteSearch">SEARCH THE OBSERVATORY</label><input id="siteSearch" placeholder="Project, ward, agency, or reference ID…" autocomplete="off" /><div class="search-hint">Try “Balkum”, “road”, or “water”</div><div id="searchResults" class="search-results"></div></form></dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.js"></script>
+  <script src="./app.js" defer></script>
+</body>
+</html>
